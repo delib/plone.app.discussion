@@ -147,7 +147,7 @@
         </form>
     </div>
 
-    <div id="commenting" class="reply" tal:condition="python:isDiscussionAllowed and (isAnon and isAnonymousDiscussionAllowed or userHasReplyPermission)">
+    <div class="commenting reply" tal:condition="python:isDiscussionAllowed and (isAnon and isAnonymousDiscussionAllowed or userHasReplyPermission)">
 
         <fieldset>
 

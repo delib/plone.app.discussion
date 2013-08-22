@@ -97,7 +97,7 @@ class CommentForm(extensible.ExtensibleForm, form.Form):
         # Rename the id of the text widgets because there can be css-id
         # clashes with the text field of documents when using and overlay
         # with TinyMCE.
-        self.widgets['text'].id = "form-widgets-comment-text"
+        self.widgets['text'].id = None
 
         # Anonymous / Logged-in
         mtool = getToolByName(self.context, 'portal_membership')
