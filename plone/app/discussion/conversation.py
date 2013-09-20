@@ -309,7 +309,7 @@ def conversationAdapterFactory(content):
     annotions = IAnnotations(content)
     if not ANNOTATION_KEY in annotions:
         conversation = Conversation()
-        conversation.__parent__ = aq_base(content)
+        conversation.__parent__ = aq_inner(content)
     else:
         conversation = annotions[ANNOTATION_KEY]
     return conversation.__of__(content)
