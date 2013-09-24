@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 from AccessControl.User import User  # before SpecialUsers
 from AccessControl.SpecialUsers import nobody as user_nobody
+from AccessControl.PermissionRole import rolesForPermissionOn
 from Acquisition import aq_chain
 from plone.app.discussion.testing import \
     PLONE_APP_DISCUSSION_INTEGRATION_TESTING
@@ -22,17 +23,10 @@ comment_workflow_acquired_view = 'comment_workflow_acquired_view'
 
 
 def _anonymousCanView(obj):
-    """Use rolesOfPermission() to sees if Anonymous has View permission on an
+    """Use rolesForPermissionOn to see if Anonymous has View permission on an
     object"""
-    roles_of_view_permission = obj.rolesOfPermission("View")
-    # rolesOfPermission returns a list of dictionaries that have the key
-    # 'name' for role.
-    anon_views = [r for r in roles_of_view_permission
-                  if r['name'] == 'Anonymous']
-    # only one entry per role should be present
-    anon_view = anon_views[0]
-    # if this role has the permission, 'selected' is set to 'SELECTED'
-    return anon_view['selected'] == 'SELECTED'
+
+    return 'Anonymous' in rolesForPermissionOn("View", obj)
 
 
 class DexterityAcquisitionTest(unittest.TestCase):
@@ -131,8 +125,6 @@ class DexterityAcquisitionTest(unittest.TestCase):
         self.assertTrue(
             user_nobody.has_permission("View", self.dexterity_comment))
 
-        # Fails: Anonymous should therefore have View permission on the
-        # comments when we use rolesOfPermission.
         self.assertTrue(_anonymousCanView(self.archetypes_comment))
         self.assertTrue(_anonymousCanView(self.dexterity_comment))
 
